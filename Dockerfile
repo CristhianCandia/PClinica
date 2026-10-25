@@ -11,7 +11,6 @@ RUN apt-get update && apt-get install -y \
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Configuramos Apache para que apunte a la carpeta 'public' de Laravel
-# Usamos '|' como separador para evitar conflictos con las barras '/'
 RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
 RUN sed -i 's|AllowOverride None|AllowOverride All|g' /etc/apache2/apache2.conf
 
@@ -27,8 +26,6 @@ RUN composer install --no-dev --optimize-autoloader
 # Damos permisos a las carpetas que Laravel necesita escribir
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
-
-RUN php artisan config:clear && php artisan cache:clear
 
 # Exponemos el puerto 80
 EXPOSE 80
