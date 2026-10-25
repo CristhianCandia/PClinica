@@ -28,5 +28,7 @@ RUN composer install --no-dev --optimize-autoloader
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
+RUN php artisan config:clear && php artisan cache:clear
+
 # Exponemos el puerto 80
 EXPOSE 80
