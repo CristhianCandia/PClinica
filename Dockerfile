@@ -11,9 +11,9 @@ RUN apt-get update && apt-get install -y \
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Configuramos Apache para que apunte a la carpeta 'public' de Laravel
-ENV APACHE_DOCUMENT_ROOT /var/www/html/public
-RUN sed -i -e "s/DocumentRoot \/var\/www\/html/DocumentRoot ${APACHE_DOCUMENT_ROOT}/g" /etc/apache2/apache2.conf \
-    && sed -i -e "s/AllowOverride None/AllowOverride All/g" /etc/apache2/apache2.conf
+# Usamos '|' como separador para evitar conflictos con las barras '/'
+RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
+RUN sed -i 's|AllowOverride None|AllowOverride All|g' /etc/apache2/apache2.conf
 
 # Definimos la carpeta de trabajo
 WORKDIR /var/www/html
