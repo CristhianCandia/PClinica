@@ -1,5 +1,5 @@
 # Usamos una imagen base de PHP con Apache
-FROM php:8.2-apache
+FROM php:8.3-apache
 
 # Instalamos las extensiones necesarias para Laravel y PostgreSQL
 RUN apt-get update && apt-get install -y \
